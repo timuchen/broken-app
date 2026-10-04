@@ -1,0 +1,5 @@
+-rw-r--r--  1 user  staff  28851 Oct  4 23:29 /Users/user/projects/lern_rust/sprint-5/broken-app-old/artifacts/flamegraph.svg
+symbols:
+   1 normalize
+   2 slow_dedup
+  37 slow_fib

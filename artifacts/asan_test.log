@@ -1,0 +1,135 @@
+   Compiling compiler_builtins v0.1.160 (/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/compiler-builtins/compiler-builtins)
+   Compiling core v0.0.0 (/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/core)
+   Compiling libc v0.2.189
+   Compiling object v0.39.1
+   Compiling std v0.0.0 (/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/std)
+   Compiling test v0.0.0 (/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/test)
+   Compiling proc-macro2 v1.0.103
+   Compiling quote v1.0.42
+   Compiling unicode-ident v1.0.22
+   Compiling crossbeam-utils v0.8.21
+   Compiling serde_core v1.0.228
+   Compiling zerocopy v0.8.31
+   Compiling serde v1.0.228
+   Compiling autocfg v1.5.0
+   Compiling libc v0.2.178
+   Compiling serde_json v1.0.145
+   Compiling rayon-core v1.13.0
+   Compiling num-traits v0.2.19
+   Compiling syn v2.0.111
+   Compiling zerocopy-derive v0.8.31
+   Compiling serde_derive v1.0.228
+   Compiling rustc-std-workspace-core v1.99.0 (/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/rustc-std-workspace-core)
+   Compiling alloc v0.0.0 (/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/alloc)
+   Compiling memchr v2.8.3
+   Compiling adler2 v2.0.1
+   Compiling rustc-demangle v0.1.28
+   Compiling cfg-if v1.0.4
+   Compiling rustc-literal-escaper v0.0.8
+   Compiling unwind v0.0.0 (/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/unwind)
+   Compiling rustc-std-workspace-alloc v1.99.0 (/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/rustc-std-workspace-alloc)
+   Compiling panic_unwind v0.0.0 (/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/panic_unwind)
+   Compiling panic_abort v0.0.0 (/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/panic_abort)
+   Compiling gimli v0.34.0
+   Compiling std_detect v0.1.5 (/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/std_detect)
+   Compiling miniz_oxide v0.9.1
+   Compiling hashbrown v0.17.1
+   Compiling addr2line v0.27.1
+   Compiling rustc-std-workspace-std v1.99.0 (/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/rustc-std-workspace-std)
+   Compiling proc_macro v0.0.0 (/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/proc_macro)
+   Compiling getopts v0.2.24
+   Compiling either v1.15.0
+   Compiling plotters-backend v0.3.7
+   Compiling clap_lex v0.7.6
+   Compiling anstyle v1.0.13
+   Compiling ciborium-io v0.2.2
+   Compiling ryu v1.0.20
+   Compiling memchr v2.7.6
+   Compiling regex-syntax v0.8.8
+   Compiling itoa v1.0.15
+   Compiling plotters-svg v0.3.7
+   Compiling itertools v0.10.5
+   Compiling clap_builder v4.5.53
+   Compiling same-file v1.0.6
+   Compiling cast v0.3.0
+   Compiling crossbeam-epoch v0.9.18
+   Compiling walkdir v2.5.0
+   Compiling crossbeam-deque v0.8.6
+   Compiling oorandom v11.1.5
+   Compiling once_cell v1.21.3
+   Compiling plotters v0.3.7
+   Compiling anes v0.1.6
+   Compiling is-terminal v0.4.17
+   Compiling broken-app v0.1.0 (/Users/user/projects/lern_rust/sprint-5/broken-app-old)
+warning[E0133]: dereference of raw pointer is unsafe and requires unsafe block
+  --> src/lib.rs:60:15
+   |
+60 |     let val = *raw;
+   |               ^^^^ dereference of raw pointer
+   |
+   = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
+note: an unsafe function restricts its caller, but its body is safe by default
+  --> src/lib.rs:57:1
+   |
+57 | pub unsafe fn use_after_free() -> i32 {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+   = note: `#[warn(unsafe_op_in_unsafe_fn)]` (part of `#[warn(rust_2024_compatibility)]`) on by default
+
+warning[E0133]: call to unsafe function `std::boxed::Box::<T>::from_raw` is unsafe and requires unsafe block
+  --> src/lib.rs:61:10
+   |
+61 |     drop(Box::from_raw(raw));
+   |          ^^^^^^^^^^^^^^^^^^ call to unsafe function
+   |
+   = note: consult the function's documentation for information on how to avoid undefined behavior
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+
+warning[E0133]: dereference of raw pointer is unsafe and requires unsafe block
+  --> src/lib.rs:62:11
+   |
+62 |     val + *raw
+   |           ^^^^ dereference of raw pointer
+   |
+   = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+
+   Compiling regex-automata v0.4.13
+   Compiling criterion-plot v0.5.0
+For more information about this error, try `rustc --explain E0133`.
+warning: `broken-app` (lib) generated 3 warnings (run `cargo fix --lib -p broken-app` to apply 1 suggestion)
+   Compiling rayon v1.11.0
+   Compiling half v2.7.1
+   Compiling ciborium-ll v0.2.2
+   Compiling clap v4.5.53
+   Compiling ciborium v0.2.2
+   Compiling tinytemplate v1.2.1
+   Compiling regex v1.12.2
+   Compiling criterion v0.5.1
+warning: `broken-app` (lib test) generated 3 warnings (3 duplicates)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 17.66s
+     Running unittests src/lib.rs (/var/folders/jv/rvc5rdwn51350rch7q19r8sw0000gn/T/cursor-sandbox-cache/90804ff7744f2372c8aa08f12a8cebb7/cargo-target/aarch64-apple-darwin/debug/build/broken-app/6b269110e2d3d0ef/out/broken_app-6b269110e2d3d0ef)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/demo.rs (/var/folders/jv/rvc5rdwn51350rch7q19r8sw0000gn/T/cursor-sandbox-cache/90804ff7744f2372c8aa08f12a8cebb7/cargo-target/aarch64-apple-darwin/debug/build/broken-app/31a0bdbb72fa73ce/out/demo-31a0bdbb72fa73ce)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/integration.rs (/var/folders/jv/rvc5rdwn51350rch7q19r8sw0000gn/T/cursor-sandbox-cache/90804ff7744f2372c8aa08f12a8cebb7/cargo-target/aarch64-apple-darwin/debug/build/broken-app/7388ddae0b57f343/out/integration-7388ddae0b57f343)
+
+running 6 tests
+test counts_non_zero_bytes ... 
+thread 'sums_even_numbers' (13764794) panicked at src/lib.rs:11:29:
+unsafe precondition(s) violated: slice::get_unchecked requires that the index is within the slice
+
+This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.
+thread caused non-unwinding panic. aborting.
+error: test failed, to rerun pass `--test integration`
+
+Caused by:
+  process didn't exit successfully: `/var/folders/jv/rvc5rdwn51350rch7q19r8sw0000gn/T/cursor-sandbox-cache/90804ff7744f2372c8aa08f12a8cebb7/cargo-target/aarch64-apple-darwin/debug/build/broken-app/7388ddae0b57f343/out/integration-7388ddae0b57f343` (signal: 6, SIGABRT: process abort signal)

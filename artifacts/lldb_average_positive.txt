@@ -1,0 +1,70 @@
+(lldb) target create "/Users/user/projects/lern_rust/sprint-5/broken-app-old/target/debug/deps/integration-2813511477a15a8b"
+Current executable set to '/Users/user/projects/lern_rust/sprint-5/broken-app-old/target/debug/deps/integration-2813511477a15a8b' (arm64).
+(lldb) settings set target.process.stop-on-sharedlibrary-events false
+(lldb) breakpoint set --name broken_app::average_positive
+Breakpoint 1: where = integration-2813511477a15a8b`broken_app::average_positive + 32 at lib.rs:48:27, address = 0x000000010003a414
+(lldb) process launch -- averages_only_positive --nocapture
+
+running 1 test
+warning: This version of LLDB has no plugin for the language "rust". Inspection of frame variables will be limited.
+Process 3846 launched: '/Users/user/projects/lern_rust/sprint-5/broken-app-old/target/debug/deps/integration-2813511477a15a8b' (arm64)
+Process 3846 stopped
+* thread #2, name = 'averages_only_positive', stop reason = breakpoint 1.1
+       frame #0: 0x000000010003a414 integration-2813511477a15a8b`broken_app::average_positive(values=&[i64] @ 0x0000000170006628) at lib.rs:48:27
+   45  	/// Логическая ошибка: усредняет по всем элементам, хотя требуется учитывать
+   46  	/// только положительные. Деление на длину среза даёт неверный результат.
+   47  	pub fn average_positive(values: &[i64]) -> f64 {
+-> 48  	    let sum: i64 = values.iter().sum();
+    	                          ^
+   49  	    if values.is_empty() {
+   50  	        return 0.0;
+   51  	    }
+Target 0: (integration-2813511477a15a8b) stopped.
+(lldb) frame variable
+(&[i64]) values = {
+  data_ptr = 0x0000000170006658
+  length = 3
+}
+(lldb) bt
+* thread #2, name = 'averages_only_positive', stop reason = breakpoint 1.1
+   * frame #0: 0x000000010003a414 integration-2813511477a15a8b`broken_app::average_positive(values=&[i64] @ 0x0000000170006628) at lib.rs:48:27
+     frame #1: 0x0000000100000f50 integration-2813511477a15a8b`integration::averages_only_positive at integration.rs:36:14
+     frame #2: 0x000000010000199c integration-2813511477a15a8b`integration::averages_only_positive::{closure#0}((null)=0x00000001700066ae) at integration.rs:33:28
+     frame #3: 0x000000010000160c integration-2813511477a15a8b`<integration::averages_only_positive::{closure#0} as core::ops::function::FnOnce<()>>::call_once((null)={closure_env#0} @ 0x00000001700066ae, (null)=<unavailable>) at function.rs:250:5
+     frame #4: 0x0000000100001d48 integration-2813511477a15a8b`<fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once at function.rs:250:5 [opt] [inlined]
+     frame #5: 0x0000000100001d40 integration-2813511477a15a8b`test::__rust_begin_short_backtrace::<core::result::Result<(), alloc::string::String>, fn() -> core::result::Result<(), alloc::string::String>> at lib.rs:724:18 [opt]
+     frame #6: 0x000000010000d07c integration-2813511477a15a8b`test::run_test_in_process::{closure#0} at lib.rs:747:74 [opt] [inlined]
+     frame #7: 0x000000010000d070 integration-2813511477a15a8b`<core::panic::unwind_safe::AssertUnwindSafe<test::run_test_in_process::{closure#0}> as core::ops::function::FnOnce<()>>::call_once at unwind_safe.rs:275:9 [opt] [inlined]
+     frame #8: 0x000000010000d070 integration-2813511477a15a8b`std::panicking::catch_unwind::do_call::<core::panic::unwind_safe::AssertUnwindSafe<test::run_test_in_process::{closure#0}>, core::result::Result<(), alloc::string::String>> at panicking.rs:576:43 [opt] [inlined]
+     frame #9: 0x000000010000d06c integration-2813511477a15a8b`std::panicking::catch_unwind::<core::result::Result<(), alloc::string::String>, core::panic::unwind_safe::AssertUnwindSafe<test::run_test_in_process::{closure#0}>> at panicking.rs:544:19 [opt] [inlined]
+     frame #10: 0x000000010000d06c integration-2813511477a15a8b`std::panic::catch_unwind::<core::panic::unwind_safe::AssertUnwindSafe<test::run_test_in_process::{closure#0}>, core::result::Result<(), alloc::string::String>> at panic.rs:359:14 [opt] [inlined]
+     frame #11: 0x000000010000d06c integration-2813511477a15a8b`test::run_test_in_process at lib.rs:747:27 [opt] [inlined]
+     frame #12: 0x000000010000d060 integration-2813511477a15a8b`test::run_test::{closure#0} at lib.rs:668:43 [opt]
+     frame #13: 0x0000000100007f5c integration-2813511477a15a8b`test::run_test::{closure#1} at lib.rs:698:41 [opt] [inlined]
+     frame #14: 0x0000000100007ef8 integration-2813511477a15a8b`std::sys::backtrace::__rust_begin_short_backtrace::<test::run_test::{closure#1}, ()> at backtrace.rs:166:18 [opt]
+     frame #15: 0x000000010000f544 integration-2813511477a15a8b`std::thread::lifecycle::spawn_unchecked::<test::run_test::{closure#1}, ()>::{closure#1}::{closure#0} at lifecycle.rs:70:13 [opt] [inlined]
+     frame #16: 0x000000010000f534 integration-2813511477a15a8b`<core::panic::unwind_safe::AssertUnwindSafe<std::thread::lifecycle::spawn_unchecked<test::run_test::{closure#1}, ()>::{closure#1}::{closure#0}> as core::ops::function::FnOnce<()>>::call_once at unwind_safe.rs:275:9 [opt] [inlined]
+     frame #17: 0x000000010000f534 integration-2813511477a15a8b`std::panicking::catch_unwind::do_call::<core::panic::unwind_safe::AssertUnwindSafe<std::thread::lifecycle::spawn_unchecked<test::run_test::{closure#1}, ()>::{closure#1}::{closure#0}>, ()> at panicking.rs:576:43 [opt] [inlined]
+     frame #18: 0x000000010000f530 integration-2813511477a15a8b`std::panicking::catch_unwind::<(), core::panic::unwind_safe::AssertUnwindSafe<std::thread::lifecycle::spawn_unchecked<test::run_test::{closure#1}, ()>::{closure#1}::{closure#0}>> at panicking.rs:544:19 [opt] [inlined]
+     frame #19: 0x000000010000f530 integration-2813511477a15a8b`std::panic::catch_unwind::<core::panic::unwind_safe::AssertUnwindSafe<std::thread::lifecycle::spawn_unchecked<test::run_test::{closure#1}, ()>::{closure#1}::{closure#0}>, ()> at panic.rs:359:14 [opt] [inlined]
+     frame #20: 0x000000010000f530 integration-2813511477a15a8b`std::thread::lifecycle::spawn_unchecked::<test::run_test::{closure#1}, ()>::{closure#1} at lifecycle.rs:68:26 [opt] [inlined]
+     frame #21: 0x000000010000f520 integration-2813511477a15a8b`<std::thread::lifecycle::spawn_unchecked<test::run_test::{closure#1}, ()>::{closure#1} as core::ops::function::FnOnce<()>>::call_once::{shim:vtable#0} at function.rs:250:5 [opt]
+     frame #22: 0x0000000100066050 integration-2813511477a15a8b`<alloc::boxed::Box<dyn core::ops::function::FnOnce<(), Output = ()> + core::marker::Send> as core::ops::function::FnOnce<()>>::call_once at boxed.rs:2319:9 [opt] [inlined]
+     frame #23: 0x0000000100066044 integration-2813511477a15a8b`<std::sys::thread::unix::Thread>::new::thread_start at unix.rs:123:17 [opt]
+     frame #24: 0x00000001957a5d00 libsystem_pthread.dylib`_pthread_start + 136
+(lldb) continue
+
+thread 'averages_only_positive' (13881315) panicked at tests/integration.rs:36:5:
+assertion failed: (broken_app::average_positive(&nums) - 10.0).abs() < f64::EPSILON
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test averages_only_positive ... FAILED
+
+failures:
+
+failures:
+    averages_only_positive
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.08s
+
+Process 3846 resuming
+Process 3846 exited with status = 101 (0x00000065)

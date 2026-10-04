@@ -1,0 +1,11 @@
+slow_fib: 5.829541ms
+slow_dedup: 7.713125ms
+normalize: 154µs
+slow_fib: 5.613ms
+slow_dedup: 7.925625ms
+normalize: 125.334µs
+slow_fib: 5.806916ms
+slow_dedup: 7.737167ms
+normalize: 116.459µs
+
+sum_even: hung/timeout
