@@ -8,6 +8,14 @@ fn sums_even_numbers() {
 }
 
 #[test]
+fn sums_even_empty_and_boundary() {
+    assert_eq!(sum_even(&[]), 0);
+    assert_eq!(sum_even(&[1]), 0);
+    assert_eq!(sum_even(&[2]), 2);
+    assert_eq!(sum_even(&[-2, -1, 0, 1, 2]), 0);
+}
+
+#[test]
 fn counts_non_zero_bytes() {
     let data = [0_u8, 1, 0, 2, 3];
     assert_eq!(leak_buffer(&data), 3);
@@ -34,4 +42,18 @@ fn averages_only_positive() {
     let nums = [-5, 5, 15];
     // Ожидается (5 + 15) / 2 = 10, но текущая реализация делит на все элементы.
     assert!((broken_app::average_positive(&nums) - 10.0).abs() < f64::EPSILON);
+}
+
+#[test]
+fn boxed_value_no_use_after_free() {
+    assert_eq!(broken_app::boxed_value(), 84);
+}
+
+#[test]
+fn race_increment_is_correct() {
+    let total = broken_app::concurrency::race_increment(1_000, 4);
+    assert_eq!(total, 4_000);
+    assert_eq!(broken_app::concurrency::read_after_sleep(), 4_000);
+    broken_app::concurrency::reset_counter();
+    assert_eq!(broken_app::concurrency::read_after_sleep(), 0);
 }

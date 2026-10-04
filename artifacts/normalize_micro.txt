@@ -1,7 +1,6 @@
 normalize: 154µs
 normalize: 125.334µs
 normalize: 116.459µs
-
 normalize: 166.792µs
 normalize: 155.667µs
 normalize: 155.625µs

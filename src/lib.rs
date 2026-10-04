@@ -1,20 +1,9 @@
 pub mod algo;
 pub mod concurrency;
 
-/// Сумма чётных значений.
-/// Здесь намеренно используется `get_unchecked` с off-by-one,
-/// из-за чего возникает UB при доступе за пределы среза.
+/// Сумма чётных значений без `get_unchecked` и выхода за границу.
 pub fn sum_even(values: &[i64]) -> i64 {
-    let mut acc = 0;
-    unsafe {
-        for idx in 0..=values.len() {
-            let v = *values.get_unchecked(idx);
-            if v % 2 == 0 {
-                acc += v;
-            }
-        }
-    }
-    acc
+    values.iter().copied().filter(|v| v % 2 == 0).sum()
 }
 
 /// Подсчёт ненулевых байтов. Буфер намеренно не освобождается,
@@ -52,12 +41,9 @@ pub fn average_positive(values: &[i64]) -> f64 {
     sum as f64 / values.len() as f64
 }
 
-/// Use-after-free: возвращает значение после освобождения бокса.
-/// UB, проявится под ASan/Miri.
-pub unsafe fn use_after_free() -> i32 {
+/// Безопасная замена use-after-free: читаем значение до освобождения.
+pub fn boxed_value() -> i32 {
     let b = Box::new(42_i32);
-    let raw = Box::into_raw(b);
-    let val = *raw;
-    drop(Box::from_raw(raw));
-    val + *raw
+    let val = *b;
+    val + val
 }
