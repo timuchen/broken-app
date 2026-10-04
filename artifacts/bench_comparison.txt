@@ -1,0 +1,3 @@
+sum_even: before=7.292µs after=7.125µs speedup≈1.0x
+slow_fib: before=5.915ms after=42ns speedup≈140840.3x
+slow_dedup: before=7.977ms after=74.375µs speedup≈107.3x

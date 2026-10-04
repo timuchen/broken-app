@@ -6,39 +6,35 @@ pub fn sum_even(values: &[i64]) -> i64 {
     values.iter().copied().filter(|v| v % 2 == 0).sum()
 }
 
-/// Подсчёт ненулевых байтов. Буфер намеренно не освобождается,
-/// что приведёт к утечке памяти (Valgrind это покажет).
+/// Подсчёт ненулевых байтов без аллокаций и без утечек.
 pub fn leak_buffer(input: &[u8]) -> usize {
-    let boxed = input.to_vec().into_boxed_slice();
-    let len = input.len();
-    let raw = Box::into_raw(boxed) as *mut u8;
-
-    let mut count = 0;
-    unsafe {
-        for i in 0..len {
-            if *raw.add(i) != 0_u8 {
-                count += 1;
-            }
-        }
-        // утечка: не вызываем Box::from_raw(raw);
-    }
-    count
+    input.iter().filter(|b| **b != 0).count()
 }
 
-/// Небрежная нормализация строки: удаляем пробелы и приводим к нижнему регистру,
-/// но игнорируем повторяющиеся пробелы/табуляции внутри текста.
+/// Нормализация: убираем все виды пробельных символов и приводим к нижнему регистру.
 pub fn normalize(input: &str) -> String {
-    input.replace(' ', "").to_lowercase()
+    let mut out = String::with_capacity(input.len());
+    for part in input.split_whitespace() {
+        out.extend(part.chars().flat_map(|c| c.to_lowercase()));
+    }
+    out
 }
 
-/// Логическая ошибка: усредняет по всем элементам, хотя требуется учитывать
-/// только положительные. Деление на длину среза даёт неверный результат.
+/// Усреднение только положительных чисел за один проход.
 pub fn average_positive(values: &[i64]) -> f64 {
-    let sum: i64 = values.iter().sum();
-    if values.is_empty() {
-        return 0.0;
+    let mut sum = 0_i64;
+    let mut count = 0_usize;
+    for &v in values {
+        if v > 0 {
+            sum += v;
+            count += 1;
+        }
     }
-    sum as f64 / values.len() as f64
+    if count == 0 {
+        0.0
+    } else {
+        sum as f64 / count as f64
+    }
 }
 
 /// Безопасная замена use-after-free: читаем значение до освобождения.
