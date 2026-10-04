@@ -1,0 +1,257 @@
+   Compiling broken-app v0.1.0 (/private/tmp/san-before)
+warning[E0133]: dereference of raw pointer is unsafe and requires unsafe block
+  --> src/lib.rs:60:15
+   |
+60 |     let val = *raw;
+   |               ^^^^ dereference of raw pointer
+   |
+   = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
+note: an unsafe function restricts its caller, but its body is safe by default
+  --> src/lib.rs:57:1
+   |
+57 | pub unsafe fn use_after_free() -> i32 {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+   = note: `#[warn(unsafe_op_in_unsafe_fn)]` (part of `#[warn(rust_2024_compatibility)]`) on by default
+
+warning[E0133]: call to unsafe function `std::boxed::Box::<T>::from_raw` is unsafe and requires unsafe block
+  --> src/lib.rs:61:10
+   |
+61 |     drop(Box::from_raw(raw));
+   |          ^^^^^^^^^^^^^^^^^^ call to unsafe function
+   |
+   = note: consult the function's documentation for information on how to avoid undefined behavior
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+
+warning[E0133]: dereference of raw pointer is unsafe and requires unsafe block
+  --> src/lib.rs:62:11
+   |
+62 |     val + *raw
+   |           ^^^^ dereference of raw pointer
+   |
+   = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+
+For more information about this error, try `rustc --explain E0133`.
+warning: `broken-app` (lib) generated 3 warnings (run `cargo fix --lib -p broken-app` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.02s
+     Running tests/ub.rs (/var/folders/jv/rvc5rdwn51350rch7q19r8sw0000gn/T/cursor-sandbox-cache/90804ff7744f2372c8aa08f12a8cebb7/cargo-target/aarch64-apple-darwin/debug/build/broken-app/34404ba4343ead46/out/ub-34404ba4343ead46)
+
+running 1 test
+==================
+WARNING: ThreadSanitizer: data race (pid=21188)
+  Read of size 8 at 0x000104a29098 by thread T3:
+    #0 _RNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0B5_ <null> (ub-34404ba4343ead46:arm64+0x1000065dc)
+    #1 _RINvNtNtCsiwfl9064KP4_3std3sys9backtrace28___rust_begin_short_backtraceNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB1d_ <null> (ub-34404ba4343ead46:arm64+0x100006f94)
+    #2 _RNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00B16_ <null> (ub-34404ba4343ead46:arm64+0x100005f80)
+    #3 _RNvXsn_NtNtCsHTrQqSDOTv_4core5panic11unwind_safeINtB5_16AssertUnwindSafeNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EINtNtNtB9_3ops8function6FnOnceuE9call_onceB2f_ <null> (ub-34404ba4343ead46:arm64+0x100004578)
+    #4 _RINvNvNtCsiwfl9064KP4_3std9panicking12catch_unwind7do_callINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB6_6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EuEB2M_ <null> (ub-34404ba4343ead46:arm64+0x100007c38)
+    #5 __rust_try <null> (ub-34404ba4343ead46:arm64+0x100007fd4)
+    #6 _RINvNtCsiwfl9064KP4_3std9panicking12catch_unwinduINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EEB2D_ <null> (ub-34404ba4343ead46:arm64+0x100007a20)
+    #7 _RINvNtCsiwfl9064KP4_3std5panic12catch_unwindINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EuEB2y_ <null> (ub-34404ba4343ead46:arm64+0x10000767c)
+    #8 _RNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_0B14_ <null> (ub-34404ba4343ead46:arm64+0x100005c1c)
+    #9 _RNSNvYNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_0INtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuE9call_once6vtableB19_ <null> (ub-34404ba4343ead46:arm64+0x100008db4)
+    #10 _RNvXst_NtCsfbQez5SA7P_5alloc5boxedINtB5_3BoxDINtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuEp6OutputuNtNtBO_6marker4SendEL_EIBI_uE9call_onceCsiwfl9064KP4_3std <null> (ub-34404ba4343ead46:arm64+0x1002acc44)
+    #11 _RNvNvMs0_NtNtNtCsiwfl9064KP4_3std3sys6thread4unixNtB7_6Thread3new12thread_start <null> (ub-34404ba4343ead46:arm64+0x1002717b4)
+
+  Previous write of size 8 at 0x000104a29098 by thread T2:
+    #0 _RNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0B5_ <null> (ub-34404ba4343ead46:arm64+0x100006640)
+    #1 _RINvNtNtCsiwfl9064KP4_3std3sys9backtrace28___rust_begin_short_backtraceNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB1d_ <null> (ub-34404ba4343ead46:arm64+0x100006f94)
+    #2 _RNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00B16_ <null> (ub-34404ba4343ead46:arm64+0x100005f80)
+    #3 _RNvXsn_NtNtCsHTrQqSDOTv_4core5panic11unwind_safeINtB5_16AssertUnwindSafeNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EINtNtNtB9_3ops8function6FnOnceuE9call_onceB2f_ <null> (ub-34404ba4343ead46:arm64+0x100004578)
+    #4 _RINvNvNtCsiwfl9064KP4_3std9panicking12catch_unwind7do_callINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB6_6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EuEB2M_ <null> (ub-34404ba4343ead46:arm64+0x100007c38)
+    #5 __rust_try <null> (ub-34404ba4343ead46:arm64+0x100007fd4)
+    #6 _RINvNtCsiwfl9064KP4_3std9panicking12catch_unwinduINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EEB2D_ <null> (ub-34404ba4343ead46:arm64+0x100007a20)
+    #7 _RINvNtCsiwfl9064KP4_3std5panic12catch_unwindINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EuEB2y_ <null> (ub-34404ba4343ead46:arm64+0x10000767c)
+    #8 _RNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_0B14_ <null> (ub-34404ba4343ead46:arm64+0x100005c1c)
+    #9 _RNSNvYNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_0INtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuE9call_once6vtableB19_ <null> (ub-34404ba4343ead46:arm64+0x100008db4)
+    #10 _RNvXst_NtCsfbQez5SA7P_5alloc5boxedINtB5_3BoxDINtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuEp6OutputuNtNtBO_6marker4SendEL_EIBI_uE9call_onceCsiwfl9064KP4_3std <null> (ub-34404ba4343ead46:arm64+0x1002acc44)
+    #11 _RNvNvMs0_NtNtNtCsiwfl9064KP4_3std3sys6thread4unixNtB7_6Thread3new12thread_start <null> (ub-34404ba4343ead46:arm64+0x1002717b4)
+
+  Location is global '_RNvNtCsf6zs9Pbqejs_10broken_app11concurrency7COUNTER' at 0x000104a29098 (ub-34404ba4343ead46+0x100505098)
+
+  Thread T3 (tid=14211016, running) created by thread T1 at:
+    #0 pthread_create <null> (librustc-nightly_rt.tsan.dylib:arm64+0x2f0a0)
+    #1 _RNvMs0_NtNtNtCsiwfl9064KP4_3std3sys6thread4unixNtB5_6Thread3new <null> (ub-34404ba4343ead46:arm64+0x10026e4ac)
+    #2 _RINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB12_ <null> (ub-34404ba4343ead46:arm64+0x100005898)
+    #3 _RINvMNtNtCsiwfl9064KP4_3std6thread7builderNtB3_7Builder15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB1e_ <null> (ub-34404ba4343ead46:arm64+0x100002c28)
+    #4 _RINvMNtNtCsiwfl9064KP4_3std6thread7builderNtB3_7Builder5spawnNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB13_ <null> (ub-34404ba4343ead46:arm64+0x100002d4c)
+    #5 _RINvNtNtCsiwfl9064KP4_3std6thread9functions5spawnNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEBR_ <null> (ub-34404ba4343ead46:arm64+0x1000037c8)
+    #6 _RNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment <null> (ub-34404ba4343ead46:arm64+0x1000021f4)
+    #7 _RNvCs95RWDj29zh2_2ubs_19tsan_sees_data_race ub.rs:10 (ub-34404ba4343ead46:arm64+0x100001338)
+    #8 _RNCNvCs95RWDj29zh2_2ub19tsan_sees_data_race0B3_ ub.rs:9 (ub-34404ba4343ead46:arm64+0x100000c34)
+    #9 _RNvYNCNvCs95RWDj29zh2_2ub19tsan_sees_data_race0INtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuE9call_onceB6_ function.rs:250 (ub-34404ba4343ead46:arm64+0x1000010dc)
+    #10 _RNvYFEINtNtCsHTrQqSDOTv_4core6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEINtNtNtB9_3ops8function6FnOnceuE9call_onceCs5JNjYso6K9N_4test <null> (ub-34404ba4343ead46:arm64+0x10009e31c)
+    #11 _RINvCs5JNjYso6K9N_4test28___rust_begin_short_backtraceINtNtCsHTrQqSDOTv_4core6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEFEBQ_EB2_ <null> (ub-34404ba4343ead46:arm64+0x1000de608)
+    #12 _RNvMs2_NtCs5JNjYso6K9N_4test5typesNtB5_12RunnableTest3run <null> (ub-34404ba4343ead46:arm64+0x1000b6020)
+    #13 _RNCNvCs5JNjYso6K9N_4test19run_test_in_process0B3_ <null> (ub-34404ba4343ead46:arm64+0x1000e6828)
+    #14 _RNvXsn_NtNtCsHTrQqSDOTv_4core5panic11unwind_safeINtB5_16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EINtNtNtB9_3ops8function6FnOnceuE9call_onceB1c_ <null> (ub-34404ba4343ead46:arm64+0x1000694ac)
+    #15 _RINvNvNtCsiwfl9064KP4_3std9panicking12catch_unwind7do_callINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EINtNtB11_6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEEB1Y_ <null> (ub-34404ba4343ead46:arm64+0x1000603c0)
+    #16 __rust_try <null> (ub-34404ba4343ead46:arm64+0x100069b78)
+    #17 _RINvNtCsiwfl9064KP4_3std9panicking12catch_unwindINtNtCsHTrQqSDOTv_4core6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEINtNtNtBP_5panic11unwind_safe16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EEB2N_ <null> (ub-34404ba4343ead46:arm64+0x10005d2dc)
+    #18 _RINvNtCsiwfl9064KP4_3std5panic12catch_unwindINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EINtNtBN_6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEEB1K_ <null> (ub-34404ba4343ead46:arm64+0x10003d2bc)
+    #19 _RNvCs5JNjYso6K9N_4test19run_test_in_process <null> (ub-34404ba4343ead46:arm64+0x1000e8d5c)
+    #20 _RNCNvCs5JNjYso6K9N_4test8run_test0B3_ <null> (ub-34404ba4343ead46:arm64+0x1000e7440)
+    #21 _RNCNvCs5JNjYso6K9N_4test8run_tests_0B3_ <null> (ub-34404ba4343ead46:arm64+0x1000e7808)
+    #22 _RINvNtNtCsiwfl9064KP4_3std3sys9backtrace28___rust_begin_short_backtraceNCNvCs5JNjYso6K9N_4test8run_tests_0uEB1b_ <null> (ub-34404ba4343ead46:arm64+0x100101088)
+    #23 _RNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00B14_ <null> (ub-34404ba4343ead46:arm64+0x100032f48)
+    #24 _RNvXsn_NtNtCsHTrQqSDOTv_4core5panic11unwind_safeINtB5_16AssertUnwindSafeNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EINtNtNtB9_3ops8function6FnOnceuE9call_onceB2d_ <null> (ub-34404ba4343ead46:arm64+0x10006943c)
+    #25 _RINvNvNtCsiwfl9064KP4_3std9panicking12catch_unwind7do_callINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB6_6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EuEB2K_ <null> (ub-34404ba4343ead46:arm64+0x1000602b0)
+    #26 __rust_try <null> (ub-34404ba4343ead46:arm64+0x100069b78)
+    #27 _RINvNtCsiwfl9064KP4_3std9panicking12catch_unwinduINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EEB2B_ <null> (ub-34404ba4343ead46:arm64+0x10005d450)
+    #28 _RINvNtCsiwfl9064KP4_3std5panic12catch_unwindINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EuEB2w_ <null> (ub-34404ba4343ead46:arm64+0x10003d23c)
+    #29 _RNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_0B12_ <null> (ub-34404ba4343ead46:arm64+0x100032b58)
+    #30 _RNSNvYNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_0INtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuE9call_once6vtableB17_ <null> (ub-34404ba4343ead46:arm64+0x1000990fc)
+    #31 _RNvXst_NtCsfbQez5SA7P_5alloc5boxedINtB5_3BoxDINtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuEp6OutputuNtNtBO_6marker4SendEL_EIBI_uE9call_onceCsiwfl9064KP4_3std <null> (ub-34404ba4343ead46:arm64+0x1002acc44)
+    #32 _RNvNvMs0_NtNtNtCsiwfl9064KP4_3std3sys6thread4unixNtB7_6Thread3new12thread_start <null> (ub-34404ba4343ead46:arm64+0x1002717b4)
+
+  Thread T2 (tid=14211015, running) created by thread T1 at:
+    #0 pthread_create <null> (librustc-nightly_rt.tsan.dylib:arm64+0x2f0a0)
+    #1 _RNvMs0_NtNtNtCsiwfl9064KP4_3std3sys6thread4unixNtB5_6Thread3new <null> (ub-34404ba4343ead46:arm64+0x10026e4ac)
+    #2 _RINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB12_ <null> (ub-34404ba4343ead46:arm64+0x100005898)
+    #3 _RINvMNtNtCsiwfl9064KP4_3std6thread7builderNtB3_7Builder15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB1e_ <null> (ub-34404ba4343ead46:arm64+0x100002c28)
+    #4 _RINvMNtNtCsiwfl9064KP4_3std6thread7builderNtB3_7Builder5spawnNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB13_ <null> (ub-34404ba4343ead46:arm64+0x100002d4c)
+    #5 _RINvNtNtCsiwfl9064KP4_3std6thread9functions5spawnNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEBR_ <null> (ub-34404ba4343ead46:arm64+0x1000037c8)
+    #6 _RNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment <null> (ub-34404ba4343ead46:arm64+0x1000021f4)
+    #7 _RNvCs95RWDj29zh2_2ubs_19tsan_sees_data_race ub.rs:10 (ub-34404ba4343ead46:arm64+0x100001338)
+    #8 _RNCNvCs95RWDj29zh2_2ub19tsan_sees_data_race0B3_ ub.rs:9 (ub-34404ba4343ead46:arm64+0x100000c34)
+    #9 _RNvYNCNvCs95RWDj29zh2_2ub19tsan_sees_data_race0INtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuE9call_onceB6_ function.rs:250 (ub-34404ba4343ead46:arm64+0x1000010dc)
+    #10 _RNvYFEINtNtCsHTrQqSDOTv_4core6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEINtNtNtB9_3ops8function6FnOnceuE9call_onceCs5JNjYso6K9N_4test <null> (ub-34404ba4343ead46:arm64+0x10009e31c)
+    #11 _RINvCs5JNjYso6K9N_4test28___rust_begin_short_backtraceINtNtCsHTrQqSDOTv_4core6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEFEBQ_EB2_ <null> (ub-34404ba4343ead46:arm64+0x1000de608)
+    #12 _RNvMs2_NtCs5JNjYso6K9N_4test5typesNtB5_12RunnableTest3run <null> (ub-34404ba4343ead46:arm64+0x1000b6020)
+    #13 _RNCNvCs5JNjYso6K9N_4test19run_test_in_process0B3_ <null> (ub-34404ba4343ead46:arm64+0x1000e6828)
+    #14 _RNvXsn_NtNtCsHTrQqSDOTv_4core5panic11unwind_safeINtB5_16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EINtNtNtB9_3ops8function6FnOnceuE9call_onceB1c_ <null> (ub-34404ba4343ead46:arm64+0x1000694ac)
+    #15 _RINvNvNtCsiwfl9064KP4_3std9panicking12catch_unwind7do_callINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EINtNtB11_6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEEB1Y_ <null> (ub-34404ba4343ead46:arm64+0x1000603c0)
+    #16 __rust_try <null> (ub-34404ba4343ead46:arm64+0x100069b78)
+    #17 _RINvNtCsiwfl9064KP4_3std9panicking12catch_unwindINtNtCsHTrQqSDOTv_4core6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEINtNtNtBP_5panic11unwind_safe16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EEB2N_ <null> (ub-34404ba4343ead46:arm64+0x10005d2dc)
+    #18 _RINvNtCsiwfl9064KP4_3std5panic12catch_unwindINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EINtNtBN_6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEEB1K_ <null> (ub-34404ba4343ead46:arm64+0x10003d2bc)
+    #19 _RNvCs5JNjYso6K9N_4test19run_test_in_process <null> (ub-34404ba4343ead46:arm64+0x1000e8d5c)
+    #20 _RNCNvCs5JNjYso6K9N_4test8run_test0B3_ <null> (ub-34404ba4343ead46:arm64+0x1000e7440)
+    #21 _RNCNvCs5JNjYso6K9N_4test8run_tests_0B3_ <null> (ub-34404ba4343ead46:arm64+0x1000e7808)
+    #22 _RINvNtNtCsiwfl9064KP4_3std3sys9backtrace28___rust_begin_short_backtraceNCNvCs5JNjYso6K9N_4test8run_tests_0uEB1b_ <null> (ub-34404ba4343ead46:arm64+0x100101088)
+    #23 _RNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00B14_ <null> (ub-34404ba4343ead46:arm64+0x100032f48)
+    #24 _RNvXsn_NtNtCsHTrQqSDOTv_4core5panic11unwind_safeINtB5_16AssertUnwindSafeNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EINtNtNtB9_3ops8function6FnOnceuE9call_onceB2d_ <null> (ub-34404ba4343ead46:arm64+0x10006943c)
+    #25 _RINvNvNtCsiwfl9064KP4_3std9panicking12catch_unwind7do_callINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB6_6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EuEB2K_ <null> (ub-34404ba4343ead46:arm64+0x1000602b0)
+    #26 __rust_try <null> (ub-34404ba4343ead46:arm64+0x100069b78)
+    #27 _RINvNtCsiwfl9064KP4_3std9panicking12catch_unwinduINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EEB2B_ <null> (ub-34404ba4343ead46:arm64+0x10005d450)
+    #28 _RINvNtCsiwfl9064KP4_3std5panic12catch_unwindINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EuEB2w_ <null> (ub-34404ba4343ead46:arm64+0x10003d23c)
+    #29 _RNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_0B12_ <null> (ub-34404ba4343ead46:arm64+0x100032b58)
+    #30 _RNSNvYNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_0INtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuE9call_once6vtableB17_ <null> (ub-34404ba4343ead46:arm64+0x1000990fc)
+    #31 _RNvXst_NtCsfbQez5SA7P_5alloc5boxedINtB5_3BoxDINtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuEp6OutputuNtNtBO_6marker4SendEL_EIBI_uE9call_onceCsiwfl9064KP4_3std <null> (ub-34404ba4343ead46:arm64+0x1002acc44)
+    #32 _RNvNvMs0_NtNtNtCsiwfl9064KP4_3std3sys6thread4unixNtB7_6Thread3new12thread_start <null> (ub-34404ba4343ead46:arm64+0x1002717b4)
+
+SUMMARY: ThreadSanitizer: data race (ub-34404ba4343ead46:arm64+0x1000065dc) in _RNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0B5_+0xcc
+==================
+==================
+WARNING: ThreadSanitizer: data race (pid=21188)
+  Write of size 8 at 0x000104a29098 by thread T5:
+    #0 _RNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0B5_ <null> (ub-34404ba4343ead46:arm64+0x100006640)
+    #1 _RINvNtNtCsiwfl9064KP4_3std3sys9backtrace28___rust_begin_short_backtraceNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB1d_ <null> (ub-34404ba4343ead46:arm64+0x100006f94)
+    #2 _RNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00B16_ <null> (ub-34404ba4343ead46:arm64+0x100005f80)
+    #3 _RNvXsn_NtNtCsHTrQqSDOTv_4core5panic11unwind_safeINtB5_16AssertUnwindSafeNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EINtNtNtB9_3ops8function6FnOnceuE9call_onceB2f_ <null> (ub-34404ba4343ead46:arm64+0x100004578)
+    #4 _RINvNvNtCsiwfl9064KP4_3std9panicking12catch_unwind7do_callINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB6_6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EuEB2M_ <null> (ub-34404ba4343ead46:arm64+0x100007c38)
+    #5 __rust_try <null> (ub-34404ba4343ead46:arm64+0x100007fd4)
+    #6 _RINvNtCsiwfl9064KP4_3std9panicking12catch_unwinduINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EEB2D_ <null> (ub-34404ba4343ead46:arm64+0x100007a20)
+    #7 _RINvNtCsiwfl9064KP4_3std5panic12catch_unwindINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EuEB2y_ <null> (ub-34404ba4343ead46:arm64+0x10000767c)
+    #8 _RNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_0B14_ <null> (ub-34404ba4343ead46:arm64+0x100005c1c)
+    #9 _RNSNvYNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_0INtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuE9call_once6vtableB19_ <null> (ub-34404ba4343ead46:arm64+0x100008db4)
+    #10 _RNvXst_NtCsfbQez5SA7P_5alloc5boxedINtB5_3BoxDINtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuEp6OutputuNtNtBO_6marker4SendEL_EIBI_uE9call_onceCsiwfl9064KP4_3std <null> (ub-34404ba4343ead46:arm64+0x1002acc44)
+    #11 _RNvNvMs0_NtNtNtCsiwfl9064KP4_3std3sys6thread4unixNtB7_6Thread3new12thread_start <null> (ub-34404ba4343ead46:arm64+0x1002717b4)
+
+  Previous write of size 8 at 0x000104a29098 by thread T2:
+    #0 _RNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0B5_ <null> (ub-34404ba4343ead46:arm64+0x100006640)
+    #1 _RINvNtNtCsiwfl9064KP4_3std3sys9backtrace28___rust_begin_short_backtraceNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB1d_ <null> (ub-34404ba4343ead46:arm64+0x100006f94)
+    #2 _RNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00B16_ <null> (ub-34404ba4343ead46:arm64+0x100005f80)
+    #3 _RNvXsn_NtNtCsHTrQqSDOTv_4core5panic11unwind_safeINtB5_16AssertUnwindSafeNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EINtNtNtB9_3ops8function6FnOnceuE9call_onceB2f_ <null> (ub-34404ba4343ead46:arm64+0x100004578)
+    #4 _RINvNvNtCsiwfl9064KP4_3std9panicking12catch_unwind7do_callINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB6_6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EuEB2M_ <null> (ub-34404ba4343ead46:arm64+0x100007c38)
+    #5 __rust_try <null> (ub-34404ba4343ead46:arm64+0x100007fd4)
+    #6 _RINvNtCsiwfl9064KP4_3std9panicking12catch_unwinduINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EEB2D_ <null> (ub-34404ba4343ead46:arm64+0x100007a20)
+    #7 _RINvNtCsiwfl9064KP4_3std5panic12catch_unwindINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_00EuEB2y_ <null> (ub-34404ba4343ead46:arm64+0x10000767c)
+    #8 _RNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_0B14_ <null> (ub-34404ba4343ead46:arm64+0x100005c1c)
+    #9 _RNSNvYNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEs_0INtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuE9call_once6vtableB19_ <null> (ub-34404ba4343ead46:arm64+0x100008db4)
+    #10 _RNvXst_NtCsfbQez5SA7P_5alloc5boxedINtB5_3BoxDINtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuEp6OutputuNtNtBO_6marker4SendEL_EIBI_uE9call_onceCsiwfl9064KP4_3std <null> (ub-34404ba4343ead46:arm64+0x1002acc44)
+    #11 _RNvNvMs0_NtNtNtCsiwfl9064KP4_3std3sys6thread4unixNtB7_6Thread3new12thread_start <null> (ub-34404ba4343ead46:arm64+0x1002717b4)
+
+  Location is global '_RNvNtCsf6zs9Pbqejs_10broken_app11concurrency7COUNTER' at 0x000104a29098 (ub-34404ba4343ead46+0x100505098)
+
+  Thread T5 (tid=14211018, running) created by thread T1 at:
+    #0 pthread_create <null> (librustc-nightly_rt.tsan.dylib:arm64+0x2f0a0)
+    #1 _RNvMs0_NtNtNtCsiwfl9064KP4_3std3sys6thread4unixNtB5_6Thread3new <null> (ub-34404ba4343ead46:arm64+0x10026e4ac)
+    #2 _RINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB12_ <null> (ub-34404ba4343ead46:arm64+0x100005898)
+    #3 _RINvMNtNtCsiwfl9064KP4_3std6thread7builderNtB3_7Builder15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB1e_ <null> (ub-34404ba4343ead46:arm64+0x100002c28)
+    #4 _RINvMNtNtCsiwfl9064KP4_3std6thread7builderNtB3_7Builder5spawnNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB13_ <null> (ub-34404ba4343ead46:arm64+0x100002d4c)
+    #5 _RINvNtNtCsiwfl9064KP4_3std6thread9functions5spawnNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEBR_ <null> (ub-34404ba4343ead46:arm64+0x1000037c8)
+    #6 _RNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment <null> (ub-34404ba4343ead46:arm64+0x1000021f4)
+    #7 _RNvCs95RWDj29zh2_2ubs_19tsan_sees_data_race ub.rs:10 (ub-34404ba4343ead46:arm64+0x100001338)
+    #8 _RNCNvCs95RWDj29zh2_2ub19tsan_sees_data_race0B3_ ub.rs:9 (ub-34404ba4343ead46:arm64+0x100000c34)
+    #9 _RNvYNCNvCs95RWDj29zh2_2ub19tsan_sees_data_race0INtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuE9call_onceB6_ function.rs:250 (ub-34404ba4343ead46:arm64+0x1000010dc)
+    #10 _RNvYFEINtNtCsHTrQqSDOTv_4core6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEINtNtNtB9_3ops8function6FnOnceuE9call_onceCs5JNjYso6K9N_4test <null> (ub-34404ba4343ead46:arm64+0x10009e31c)
+    #11 _RINvCs5JNjYso6K9N_4test28___rust_begin_short_backtraceINtNtCsHTrQqSDOTv_4core6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEFEBQ_EB2_ <null> (ub-34404ba4343ead46:arm64+0x1000de608)
+    #12 _RNvMs2_NtCs5JNjYso6K9N_4test5typesNtB5_12RunnableTest3run <null> (ub-34404ba4343ead46:arm64+0x1000b6020)
+    #13 _RNCNvCs5JNjYso6K9N_4test19run_test_in_process0B3_ <null> (ub-34404ba4343ead46:arm64+0x1000e6828)
+    #14 _RNvXsn_NtNtCsHTrQqSDOTv_4core5panic11unwind_safeINtB5_16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EINtNtNtB9_3ops8function6FnOnceuE9call_onceB1c_ <null> (ub-34404ba4343ead46:arm64+0x1000694ac)
+    #15 _RINvNvNtCsiwfl9064KP4_3std9panicking12catch_unwind7do_callINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EINtNtB11_6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEEB1Y_ <null> (ub-34404ba4343ead46:arm64+0x1000603c0)
+    #16 __rust_try <null> (ub-34404ba4343ead46:arm64+0x100069b78)
+    #17 _RINvNtCsiwfl9064KP4_3std9panicking12catch_unwindINtNtCsHTrQqSDOTv_4core6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEINtNtNtBP_5panic11unwind_safe16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EEB2N_ <null> (ub-34404ba4343ead46:arm64+0x10005d2dc)
+    #18 _RINvNtCsiwfl9064KP4_3std5panic12catch_unwindINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EINtNtBN_6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEEB1K_ <null> (ub-34404ba4343ead46:arm64+0x10003d2bc)
+    #19 _RNvCs5JNjYso6K9N_4test19run_test_in_process <null> (ub-34404ba4343ead46:arm64+0x1000e8d5c)
+    #20 _RNCNvCs5JNjYso6K9N_4test8run_test0B3_ <null> (ub-34404ba4343ead46:arm64+0x1000e7440)
+    #21 _RNCNvCs5JNjYso6K9N_4test8run_tests_0B3_ <null> (ub-34404ba4343ead46:arm64+0x1000e7808)
+    #22 _RINvNtNtCsiwfl9064KP4_3std3sys9backtrace28___rust_begin_short_backtraceNCNvCs5JNjYso6K9N_4test8run_tests_0uEB1b_ <null> (ub-34404ba4343ead46:arm64+0x100101088)
+    #23 _RNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00B14_ <null> (ub-34404ba4343ead46:arm64+0x100032f48)
+    #24 _RNvXsn_NtNtCsHTrQqSDOTv_4core5panic11unwind_safeINtB5_16AssertUnwindSafeNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EINtNtNtB9_3ops8function6FnOnceuE9call_onceB2d_ <null> (ub-34404ba4343ead46:arm64+0x10006943c)
+    #25 _RINvNvNtCsiwfl9064KP4_3std9panicking12catch_unwind7do_callINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB6_6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EuEB2K_ <null> (ub-34404ba4343ead46:arm64+0x1000602b0)
+    #26 __rust_try <null> (ub-34404ba4343ead46:arm64+0x100069b78)
+    #27 _RINvNtCsiwfl9064KP4_3std9panicking12catch_unwinduINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EEB2B_ <null> (ub-34404ba4343ead46:arm64+0x10005d450)
+    #28 _RINvNtCsiwfl9064KP4_3std5panic12catch_unwindINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EuEB2w_ <null> (ub-34404ba4343ead46:arm64+0x10003d23c)
+    #29 _RNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_0B12_ <null> (ub-34404ba4343ead46:arm64+0x100032b58)
+    #30 _RNSNvYNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_0INtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuE9call_once6vtableB17_ <null> (ub-34404ba4343ead46:arm64+0x1000990fc)
+    #31 _RNvXst_NtCsfbQez5SA7P_5alloc5boxedINtB5_3BoxDINtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuEp6OutputuNtNtBO_6marker4SendEL_EIBI_uE9call_onceCsiwfl9064KP4_3std <null> (ub-34404ba4343ead46:arm64+0x1002acc44)
+    #32 _RNvNvMs0_NtNtNtCsiwfl9064KP4_3std3sys6thread4unixNtB7_6Thread3new12thread_start <null> (ub-34404ba4343ead46:arm64+0x1002717b4)
+
+  Thread T2 (tid=14211015, running) created by thread T1 at:
+    #0 pthread_create <null> (librustc-nightly_rt.tsan.dylib:arm64+0x2f0a0)
+    #1 _RNvMs0_NtNtNtCsiwfl9064KP4_3std3sys6thread4unixNtB5_6Thread3new <null> (ub-34404ba4343ead46:arm64+0x10026e4ac)
+    #2 _RINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB12_ <null> (ub-34404ba4343ead46:arm64+0x100005898)
+    #3 _RINvMNtNtCsiwfl9064KP4_3std6thread7builderNtB3_7Builder15spawn_uncheckedNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB1e_ <null> (ub-34404ba4343ead46:arm64+0x100002c28)
+    #4 _RINvMNtNtCsiwfl9064KP4_3std6thread7builderNtB3_7Builder5spawnNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEB13_ <null> (ub-34404ba4343ead46:arm64+0x100002d4c)
+    #5 _RINvNtNtCsiwfl9064KP4_3std6thread9functions5spawnNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0uEBR_ <null> (ub-34404ba4343ead46:arm64+0x1000037c8)
+    #6 _RNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment <null> (ub-34404ba4343ead46:arm64+0x1000021f4)
+    #7 _RNvCs95RWDj29zh2_2ubs_19tsan_sees_data_race ub.rs:10 (ub-34404ba4343ead46:arm64+0x100001338)
+    #8 _RNCNvCs95RWDj29zh2_2ub19tsan_sees_data_race0B3_ ub.rs:9 (ub-34404ba4343ead46:arm64+0x100000c34)
+    #9 _RNvYNCNvCs95RWDj29zh2_2ub19tsan_sees_data_race0INtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuE9call_onceB6_ function.rs:250 (ub-34404ba4343ead46:arm64+0x1000010dc)
+    #10 _RNvYFEINtNtCsHTrQqSDOTv_4core6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEINtNtNtB9_3ops8function6FnOnceuE9call_onceCs5JNjYso6K9N_4test <null> (ub-34404ba4343ead46:arm64+0x10009e31c)
+    #11 _RINvCs5JNjYso6K9N_4test28___rust_begin_short_backtraceINtNtCsHTrQqSDOTv_4core6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEFEBQ_EB2_ <null> (ub-34404ba4343ead46:arm64+0x1000de608)
+    #12 _RNvMs2_NtCs5JNjYso6K9N_4test5typesNtB5_12RunnableTest3run <null> (ub-34404ba4343ead46:arm64+0x1000b6020)
+    #13 _RNCNvCs5JNjYso6K9N_4test19run_test_in_process0B3_ <null> (ub-34404ba4343ead46:arm64+0x1000e6828)
+    #14 _RNvXsn_NtNtCsHTrQqSDOTv_4core5panic11unwind_safeINtB5_16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EINtNtNtB9_3ops8function6FnOnceuE9call_onceB1c_ <null> (ub-34404ba4343ead46:arm64+0x1000694ac)
+    #15 _RINvNvNtCsiwfl9064KP4_3std9panicking12catch_unwind7do_callINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EINtNtB11_6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEEB1Y_ <null> (ub-34404ba4343ead46:arm64+0x1000603c0)
+    #16 __rust_try <null> (ub-34404ba4343ead46:arm64+0x100069b78)
+    #17 _RINvNtCsiwfl9064KP4_3std9panicking12catch_unwindINtNtCsHTrQqSDOTv_4core6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEINtNtNtBP_5panic11unwind_safe16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EEB2N_ <null> (ub-34404ba4343ead46:arm64+0x10005d2dc)
+    #18 _RINvNtCsiwfl9064KP4_3std5panic12catch_unwindINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNvCs5JNjYso6K9N_4test19run_test_in_process0EINtNtBN_6result6ResultuNtNtCsfbQez5SA7P_5alloc6string6StringEEB1K_ <null> (ub-34404ba4343ead46:arm64+0x10003d2bc)
+    #19 _RNvCs5JNjYso6K9N_4test19run_test_in_process <null> (ub-34404ba4343ead46:arm64+0x1000e8d5c)
+    #20 _RNCNvCs5JNjYso6K9N_4test8run_test0B3_ <null> (ub-34404ba4343ead46:arm64+0x1000e7440)
+    #21 _RNCNvCs5JNjYso6K9N_4test8run_tests_0B3_ <null> (ub-34404ba4343ead46:arm64+0x1000e7808)
+    #22 _RINvNtNtCsiwfl9064KP4_3std3sys9backtrace28___rust_begin_short_backtraceNCNvCs5JNjYso6K9N_4test8run_tests_0uEB1b_ <null> (ub-34404ba4343ead46:arm64+0x100101088)
+    #23 _RNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00B14_ <null> (ub-34404ba4343ead46:arm64+0x100032f48)
+    #24 _RNvXsn_NtNtCsHTrQqSDOTv_4core5panic11unwind_safeINtB5_16AssertUnwindSafeNCNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EINtNtNtB9_3ops8function6FnOnceuE9call_onceB2d_ <null> (ub-34404ba4343ead46:arm64+0x10006943c)
+    #25 _RINvNvNtCsiwfl9064KP4_3std9panicking12catch_unwind7do_callINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB6_6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EuEB2K_ <null> (ub-34404ba4343ead46:arm64+0x1000602b0)
+    #26 __rust_try <null> (ub-34404ba4343ead46:arm64+0x100069b78)
+    #27 _RINvNtCsiwfl9064KP4_3std9panicking12catch_unwinduINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EEB2B_ <null> (ub-34404ba4343ead46:arm64+0x10005d450)
+    #28 _RINvNtCsiwfl9064KP4_3std5panic12catch_unwindINtNtNtCsHTrQqSDOTv_4core5panic11unwind_safe16AssertUnwindSafeNCNCINvNtNtB4_6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_00EuEB2w_ <null> (ub-34404ba4343ead46:arm64+0x10003d23c)
+    #29 _RNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_0B12_ <null> (ub-34404ba4343ead46:arm64+0x100032b58)
+    #30 _RNSNvYNCINvNtNtCsiwfl9064KP4_3std6thread9lifecycle15spawn_uncheckedNCNvCs5JNjYso6K9N_4test8run_tests_0uEs_0INtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuE9call_once6vtableB17_ <null> (ub-34404ba4343ead46:arm64+0x1000990fc)
+    #31 _RNvXst_NtCsfbQez5SA7P_5alloc5boxedINtB5_3BoxDINtNtNtCsHTrQqSDOTv_4core3ops8function6FnOnceuEp6OutputuNtNtBO_6marker4SendEL_EIBI_uE9call_onceCsiwfl9064KP4_3std <null> (ub-34404ba4343ead46:arm64+0x1002acc44)
+    #32 _RNvNvMs0_NtNtNtCsiwfl9064KP4_3std3sys6thread4unixNtB7_6Thread3new12thread_start <null> (ub-34404ba4343ead46:arm64+0x1002717b4)
+
+SUMMARY: ThreadSanitizer: data race (ub-34404ba4343ead46:arm64+0x100006640) in _RNCNvNtCsf6zs9Pbqejs_10broken_app11concurrency14race_increment0B5_+0x130
+==================
+test tsan_sees_data_race ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.69s
+
+ThreadSanitizer: reported 2 warnings
+error: test failed, to rerun pass `--test ub`
+
+Caused by:
+  process didn't exit successfully: `/var/folders/jv/rvc5rdwn51350rch7q19r8sw0000gn/T/cursor-sandbox-cache/90804ff7744f2372c8aa08f12a8cebb7/cargo-target/aarch64-apple-darwin/debug/build/broken-app/34404ba4343ead46/out/ub-34404ba4343ead46 tsan_sees_data_race --nocapture` (signal: 6, SIGABRT: process abort signal)

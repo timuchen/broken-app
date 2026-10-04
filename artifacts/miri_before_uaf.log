@@ -1,0 +1,75 @@
+   Compiling broken-app v0.1.0 (/private/tmp/san-before)
+warning[E0133]: dereference of raw pointer is unsafe and requires unsafe block
+  --> src/lib.rs:60:15
+   |
+60 |     let val = *raw;
+   |               ^^^^ dereference of raw pointer
+   |
+   = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
+note: an unsafe function restricts its caller, but its body is safe by default
+  --> src/lib.rs:57:1
+   |
+57 | pub unsafe fn use_after_free() -> i32 {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+   = note: `#[warn(unsafe_op_in_unsafe_fn)]` (part of `#[warn(rust_2024_compatibility)]`) on by default
+
+warning[E0133]: call to unsafe function `std::boxed::Box::<T>::from_raw` is unsafe and requires unsafe block
+  --> src/lib.rs:61:10
+   |
+61 |     drop(Box::from_raw(raw));
+   |          ^^^^^^^^^^^^^^^^^^ call to unsafe function
+   |
+   = note: consult the function's documentation for information on how to avoid undefined behavior
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+
+warning[E0133]: dereference of raw pointer is unsafe and requires unsafe block
+  --> src/lib.rs:62:11
+   |
+62 |     val + *raw
+   |           ^^^^ dereference of raw pointer
+   |
+   = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+
+For more information about this error, try `rustc --explain E0133`.
+warning: `broken-app` (lib) generated 3 warnings (run `cargo fix --lib -p broken-app` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.42s
+     Running tests/ub.rs (/var/folders/jv/rvc5rdwn51350rch7q19r8sw0000gn/T/cursor-sandbox-cache/90804ff7744f2372c8aa08f12a8cebb7/cargo-target/miri/aarch64-apple-darwin/debug/build/broken-app/3347f1eab8319302/out/ub-3347f1eab8319302)
+
+running 1 test
+test miri_sees_use_after_free ... error: Undefined Behavior: memory access failed: alloc41062 has been freed, so this pointer is dangling
+  --> src/lib.rs:62:11
+   |
+62 |     val + *raw
+   |           ^^^^ Undefined Behavior occurred here
+   |
+   = help: this indicates a bug in the program: it performed an invalid operation, and caused Undefined Behavior
+   = help: see https://doc.rust-lang.org/nightly/reference/behavior-considered-undefined.html for further information
+help: alloc41062 was allocated here:
+  --> src/lib.rs:58:13
+   |
+58 |     let b = Box::new(42_i32);
+   |             ^^^^^^^^^^^^^^^^
+help: alloc41062 was deallocated here:
+  --> src/lib.rs:61:5
+   |
+61 |     drop(Box::from_raw(raw));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+   = note: this is on thread `miri_sees_use_after_free`
+   = note: stack backtrace:
+           0: broken_app::use_after_free
+               at src/lib.rs:62:11: 62:15
+           1: miri_sees_use_after_free
+               at tests/ub.rs:4:17: 4:45
+           2: miri_sees_use_after_free::{closure#0}
+               at tests/ub.rs:2:30: 2:30
+
+note: some details are omitted, run with `MIRIFLAGS=-Zmiri-backtrace=full` for a verbose backtrace
+
+error: aborting due to 1 previous error
+
+error: test failed, to rerun pass `--test ub`
+
+Caused by:
+  process didn't exit successfully: `/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/bin/cargo-miri runner /var/folders/jv/rvc5rdwn51350rch7q19r8sw0000gn/T/cursor-sandbox-cache/90804ff7744f2372c8aa08f12a8cebb7/cargo-target/miri/aarch64-apple-darwin/debug/build/broken-app/3347f1eab8319302/out/ub-3347f1eab8319302 miri_sees_use_after_free --nocapture` (exit status: 1)

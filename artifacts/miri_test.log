@@ -2,77 +2,42 @@ Preparing a sysroot for Miri (target: aarch64-apple-darwin)... done
    Compiling proc-macro2 v1.0.103
    Compiling quote v1.0.42
    Compiling unicode-ident v1.0.22
-   Compiling serde_core v1.0.228
    Compiling crossbeam-utils v0.8.21
+   Compiling serde_core v1.0.228
    Compiling zerocopy v0.8.31
    Compiling serde v1.0.228
    Compiling autocfg v1.5.0
-   Compiling rayon-core v1.13.0
-   Compiling cfg-if v1.0.4
    Compiling libc v0.2.178
-   Compiling serde_json v1.0.145
    Compiling either v1.15.0
-   Compiling itoa v1.0.15
+   Compiling cfg-if v1.0.4
+   Compiling serde_json v1.0.145
+   Compiling rayon-core v1.13.0
    Compiling clap_lex v0.7.6
    Compiling anstyle v1.0.13
-   Compiling regex-syntax v0.8.8
-   Compiling plotters-backend v0.3.7
    Compiling ciborium-io v0.2.2
    Compiling ryu v1.0.20
    Compiling memchr v2.7.6
+   Compiling itoa v1.0.15
+   Compiling plotters-backend v0.3.7
+   Compiling regex-syntax v0.8.8
    Compiling clap_builder v4.5.53
-   Compiling plotters-svg v0.3.7
    Compiling itertools v0.10.5
-   Compiling cast v0.3.0
    Compiling num-traits v0.2.19
+   Compiling cast v0.3.0
+   Compiling plotters-svg v0.3.7
    Compiling same-file v1.0.6
+   Compiling walkdir v2.5.0
+   Compiling anes v0.1.6
    Compiling crossbeam-epoch v0.9.18
    Compiling oorandom v11.1.5
-   Compiling walkdir v2.5.0
    Compiling once_cell v1.21.3
+   Compiling broken-app v0.1.0 (/Users/user/projects/lern_rust/sprint-5/broken-app-old)
    Compiling crossbeam-deque v0.8.6
    Compiling is-terminal v0.4.17
    Compiling syn v2.0.111
-   Compiling anes v0.1.6
-   Compiling broken-app v0.1.0 (/Users/user/projects/lern_rust/sprint-5/broken-app-old)
-warning[E0133]: dereference of raw pointer is unsafe and requires unsafe block
-  --> src/lib.rs:60:15
-   |
-60 |     let val = *raw;
-   |               ^^^^ dereference of raw pointer
-   |
-   = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
-note: an unsafe function restricts its caller, but its body is safe by default
-  --> src/lib.rs:57:1
-   |
-57 | pub unsafe fn use_after_free() -> i32 {
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
-   = note: `#[warn(unsafe_op_in_unsafe_fn)]` (part of `#[warn(rust_2024_compatibility)]`) on by default
-
-warning[E0133]: call to unsafe function `std::boxed::Box::<T>::from_raw` is unsafe and requires unsafe block
-  --> src/lib.rs:61:10
-   |
-61 |     drop(Box::from_raw(raw));
-   |          ^^^^^^^^^^^^^^^^^^ call to unsafe function
-   |
-   = note: consult the function's documentation for information on how to avoid undefined behavior
-   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
-
-warning[E0133]: dereference of raw pointer is unsafe and requires unsafe block
-  --> src/lib.rs:62:11
-   |
-62 |     val + *raw
-   |           ^^^^ dereference of raw pointer
-   |
-   = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
-   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
-
-For more information about this error, try `rustc --explain E0133`.
-warning: `broken-app` (lib) generated 3 warnings (run `cargo fix --lib -p broken-app` to apply 1 suggestion)
-   Compiling rayon v1.11.0
-   Compiling regex-automata v0.4.13
    Compiling plotters v0.3.7
+   Compiling regex-automata v0.4.13
+   Compiling rayon v1.11.0
    Compiling criterion-plot v0.5.0
    Compiling clap v4.5.53
    Compiling regex v1.12.2
@@ -83,49 +48,13 @@ warning: `broken-app` (lib) generated 3 warnings (run `cargo fix --lib -p broken
    Compiling tinytemplate v1.2.1
    Compiling ciborium v0.2.2
    Compiling criterion v0.5.1
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.58s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.97s
      Running unittests src/lib.rs (/var/folders/jv/rvc5rdwn51350rch7q19r8sw0000gn/T/cursor-sandbox-cache/90804ff7744f2372c8aa08f12a8cebb7/cargo-target/miri/aarch64-apple-darwin/debug/build/broken-app/e10162cf25aedf7d/out/broken_app-e10162cf25aedf7d)
-warning[E0133]: dereference of raw pointer is unsafe and requires unsafe block
-  --> src/lib.rs:60:15
-   |
-60 |     let val = *raw;
-   |               ^^^^ dereference of raw pointer
-   |
-   = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
-note: an unsafe function restricts its caller, but its body is safe by default
-  --> src/lib.rs:57:1
-   |
-57 | pub unsafe fn use_after_free() -> i32 {
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
-   = note: `#[warn(unsafe_op_in_unsafe_fn)]` (part of `#[warn(rust_2024_compatibility)]`) on by default
-
-warning[E0133]: call to unsafe function `std::boxed::Box::<T>::from_raw` is unsafe and requires unsafe block
-  --> src/lib.rs:61:10
-   |
-61 |     drop(Box::from_raw(raw));
-   |          ^^^^^^^^^^^^^^^^^^ call to unsafe function
-   |
-   = note: consult the function's documentation for information on how to avoid undefined behavior
-   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
-
-warning[E0133]: dereference of raw pointer is unsafe and requires unsafe block
-  --> src/lib.rs:62:11
-   |
-62 |     val + *raw
-   |           ^^^^ dereference of raw pointer
-   |
-   = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
-   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
-
 
 running 0 tests
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
 
-warning: 3 warnings emitted
-
-For more information about this error, try `rustc --explain E0133`.
      Running unittests src/bin/demo.rs (/var/folders/jv/rvc5rdwn51350rch7q19r8sw0000gn/T/cursor-sandbox-cache/90804ff7744f2372c8aa08f12a8cebb7/cargo-target/miri/aarch64-apple-darwin/debug/build/broken-app/906b7318bdaac525/out/demo-906b7318bdaac525)
 
 running 0 tests
@@ -134,47 +63,19 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
      Running tests/integration.rs (/var/folders/jv/rvc5rdwn51350rch7q19r8sw0000gn/T/cursor-sandbox-cache/90804ff7744f2372c8aa08f12a8cebb7/cargo-target/miri/aarch64-apple-darwin/debug/build/broken-app/fabec562e7e72c6a/out/integration-fabec562e7e72c6a)
 
-running 6 tests
-test averages_only_positive ... FAILED
+running 12 tests
+test average_positive_edge_cases ... ok
+test averages_only_positive ... ok
+test boxed_value_no_use_after_free ... ok
 test counts_non_zero_bytes ... ok
 test dedup_preserves_uniques ... ok
 test fib_small_numbers ... ok
+test leak_buffer_empty_and_all_zero ... ok
 test normalize_simple ... ok
-test sums_even_numbers ... 
-thread 'sums_even_numbers' (1006) panicked at src/lib.rs:11:29:
-unsafe precondition(s) violated: slice::get_unchecked requires that the index is within the slice
+test normalize_tabs_and_newlines ... ok
+test race_increment_is_correct ... ok
+test sums_even_empty_and_boundary ... ok
+test sums_even_numbers ... ok
 
-This indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety.
-thread caused non-unwinding panic. aborting.
-error: abnormal termination: the program aborted execution
-   --> /Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/std/src/panicking.rs:833:9
-    |
-833 |         crate::process::abort();
-    |         ^^^^^^^^^^^^^^^^^^^^^^^ abnormal termination occurred here
-    |
-    = note: this is on thread `sums_even_numbers`
-    = note: stack backtrace:
-            0: std::panicking::panic_with_hook
-                at /Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/std/src/panicking.rs:833:9: 833:32
-            1: std::panicking::panic_handler::{closure#0}
-                at /Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/std/src/panicking.rs:678:13: 683:14
-            2: std::sys::backtrace::__rust_end_short_backtrace::<{closure@std::panicking::panic_handler::{closure#0}}, !>
-                at /Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/std/src/sys/backtrace.rs:182:18: 182:21
-            3: std::panicking::panic_handler
-                at /Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/lib/rustlib/src/rust/library/std/src/panicking.rs:676:5: 692:7
-            4: broken_app::sum_even
-                at src/lib.rs:11:22: 11:47
-            5: sums_even_numbers
-                at tests/integration.rs:7:16: 7:31
-            6: sums_even_numbers::{closure#0}
-                at tests/integration.rs:4:23: 4:23
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.31s
 
-note: some details are omitted, run with `MIRIFLAGS=-Zmiri-backtrace=full` for a verbose backtrace
-
-error: aborting due to 1 previous error
-
-error: test failed, to rerun pass `--test integration`
-
-Caused by:
-  process didn't exit successfully: `/Users/user/.rustup/toolchains/nightly-aarch64-apple-darwin/bin/cargo-miri runner /var/folders/jv/rvc5rdwn51350rch7q19r8sw0000gn/T/cursor-sandbox-cache/90804ff7744f2372c8aa08f12a8cebb7/cargo-target/miri/aarch64-apple-darwin/debug/build/broken-app/fabec562e7e72c6a/out/integration-fabec562e7e72c6a` (exit status: 1)
-note: test exited abnormally; to see the full output pass --no-capture to the harness.

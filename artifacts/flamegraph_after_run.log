@@ -1,3 +1,16 @@
--rw-r--r--  1 user  staff  22399 Oct  4 23:43 /Users/user/projects/lern_rust/sprint-5/broken-app-old/artifacts/flamegraph_after.svg
-   2 slow_dedup
-   1 sum_even
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.26s
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.01s
+Starting recording with the Time Profiler template. Launching process: demo. 
+Ctrl-C to stop the recording
+Target app exited, ending recording...
+Recording completed. Saving output file...
+Output file saved as: cargo-flamegraph.trace
+Error: unable to collapse generated profile data
+
+Caused by:
+    Unpaired tag: frame
+cargo flamegraph failed; falling back to sample(1)
+Sampling process 43977 for 8 seconds with 1 millisecond of run time between samples
+Sampling completed, processing symbols...
+Sample analysis of process 43977 written to file /tmp/broken-app-sample.txt
+-rw-r--r--  1 user  staff  19071 Oct  5 00:03 artifacts/flamegraph_after.svg

@@ -70,7 +70,7 @@ fn boxed_value_no_use_after_free() {
 fn race_increment_is_correct() {
     let total = broken_app::concurrency::race_increment(1_000, 4);
     assert_eq!(total, 4_000);
-    assert_eq!(broken_app::concurrency::read_after_sleep(), 4_000);
+    assert_eq!(broken_app::concurrency::read_counter(), 4_000);
     broken_app::concurrency::reset_counter();
-    assert_eq!(broken_app::concurrency::read_after_sleep(), 0);
+    assert_eq!(broken_app::concurrency::read_counter(), 0);
 }

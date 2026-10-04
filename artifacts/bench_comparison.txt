@@ -1,3 +1,4 @@
-sum_even: before=7.292µs after=7.125µs speedup≈1.0x
-slow_fib: before=5.915ms after=42ns speedup≈140840.3x
-slow_dedup: before=7.977ms after=74.375µs speedup≈107.3x
+sum_even: before_ns=7083 after_ns=7041 speedup≈1.0x
+slow_fib: before_ns=5687750 after_ns=42 speedup≈135422.6x
+slow_dedup: before_ns=7785250 after_ns=11542 speedup≈674.5x
+normalize: before_ns=121958 after_ns=222583 speedup≈0.5x

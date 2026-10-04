@@ -1,21 +1,15 @@
    Compiling broken-app v0.1.0 (/Users/user/projects/lern_rust/sprint-5/broken-app-old)
-warning: unused import: `Duration`
- --> benches/baseline.rs:2:17
-  |
-2 | use std::time::{Duration, Instant};
-  |                 ^^^^^^^^
-  |
-  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
-
-warning: `broken-app` (bench "baseline") generated 1 warning (run `cargo fix --bench "baseline" -p broken-app` to apply 1 suggestion)
-    Finished `bench` profile [optimized + debuginfo] target(s) in 1.03s
+    Finished `bench` profile [optimized + debuginfo] target(s) in 0.97s
      Running benches/baseline.rs (target/release/deps/baseline-700a819fafdd4f54)
-sum_even: 7.292µs
-slow_fib: 5.915291ms
-slow_dedup: 7.975334ms
-sum_even: 7.709µs
-slow_fib: 5.994208ms
-slow_dedup: 8.092125ms
-sum_even: 7.208µs
-slow_fib: 5.834334ms
-slow_dedup: 7.976958ms
+sum_even: 6.5µs
+slow_fib: 5.68775ms
+slow_dedup: 7.844166ms
+normalize: 121.958µs
+sum_even: 7.083µs
+slow_fib: 5.694041ms
+slow_dedup: 7.698416ms
+normalize: 114.167µs
+sum_even: 7.125µs
+slow_fib: 5.66175ms
+slow_dedup: 7.78525ms
+normalize: 125.875µs

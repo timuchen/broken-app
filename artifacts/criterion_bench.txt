@@ -1,0 +1,10 @@
+test sum_even ... bench:        7091 ns/iter (+/- 335)
+
+test slow_fib_32 ... bench:          17 ns/iter (+/- 1)
+
+test slow_dedup_sort ... bench:       10244 ns/iter (+/- 228)
+
+test slow_dedup_hashset ... bench:       64099 ns/iter (+/- 2861)
+
+test normalize ... bench:      217400 ns/iter (+/- 3242)
+
